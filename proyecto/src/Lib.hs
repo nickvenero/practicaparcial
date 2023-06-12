@@ -124,3 +124,42 @@ stormBreaker :: Equipamiento
 stormBreaker personaje
  | nombre personaje == "Thor" = personaje {nombre = nombre personaje ++ " Dios del Trueno", victorias = []}
  | otherwise = personaje
+
+--Añade a la lista de victorias a todos los extras, y cada uno
+-- on un año diferente comenzando con el actual. Considerar que hay incontables extra
+-- [("extra numero 1", 2018), ("extra numero 2", 2019), …]
+gemadelalma :: Equipamiento
+gemadelalma personaje 
+ | nombre personaje == "Thanos" = personaje {victorias = victorias personaje ++ victoriasinfinitas}
+ | otherwise = personaje
+
+victoriasinfinitas :: [Victoria]
+victoriasinfinitas = zip extrasinfinitos [2030..]
+
+extrasinfinitos :: [String]
+extrasinfinitos = map (("extra numero " ++). show) [1..]
+
+{--guanteleteInfinito
+Aplica todos los equipamientos que sean gemas del infinito al personaje. 
+Usar la función sin definirla esGemaDelInfinito la cual recibe un equipamiento
+ y nos dice si la misma es o no una gema del infinito. 
+--}
+
+
+esGemaDelInfinito::Equipamiento -> Bool
+esGemaDelInfinito = undefined
+
+guanteleteInfinito::Equipamiento
+guanteleteInfinito personaje
+ |nombre personaje == "Thanos" = aplicarGemasDelInfinito personaje
+ | otherwise = personaje
+
+aplicarGemasDelInfinito::Personaje -> Personaje
+aplicarGemasDelInfinito personaje = foldl (flip ($)) personaje.gemasDelInfinito $ personaje
+
+gemasDelInfinito::Personaje -> [Equipamiento]
+gemasDelInfinito = filter esGemaDelInfinito.equipamientos
+
+
+--guanteleteInfinito :: Equipamiento
+--guanteleteInfinito personaje = personaje {equipamientos = equipamientos personaje ++ }
